@@ -1,24 +1,28 @@
 const express = require("express");
-const products = require("./data/products");
 const dotenv = require("dotenv");
+const connectDB = require("./config/db");
+const productRoutes = require("./routes/ProductRoutes.js");
+const { notFound, errorHandler } = require("./middleware/errorMiddleware");
 const app = express();
 
 dotenv.config();
+connectDB();
 const PORT = process.env.PORT || 5000;
+
+//middlware kisi bhi specific route ka bhi bnasket hai ya fer overall hr request ke ek hi middlware bnade
+
 app.get("/", (req, res) => {
   res.send("Api is running...");
 });
+app.use("/api/products", productRoutes);
 
-app.get("/api/products", (req, res) => {
-  res.json(products);
-});
+//error handler special feature hai it should be called after last app.use() routes
+//error handler will receive a special error parameter which catch if any error
+//happened over above any routes!
+//we are puttingg in seprate file.
 
-app.get("/api/products/:id", (req, res) => {
-  const product = products.find((p) => p._id === req.params.id);
-  product
-    ? res.status(200).json(product)
-    : res.status(404).json({ error: "did nt found anything" });
-});
+app.use(notFound); //404 not found if any mismatch route is requested
+app.use(errorHandler); //error if any above routes have error
 
 app.listen(PORT, () => {
   console.log(
