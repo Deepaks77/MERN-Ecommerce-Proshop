@@ -24,8 +24,9 @@ router.get(
     if (product) {
       res.json(product);
     } else {
-      res.status(404);
-      throw new Error("Product not found");
+      const err = new Error("Product not found");
+      err.status = 404;
+      throw err; //jo bhi error throw kroge that will catch by our error handler middleware
     }
   })
 );
