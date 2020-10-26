@@ -5,6 +5,7 @@ import Header from "./components/Header.component.jsx";
 import Footer from "./components/Footer.component.jsx";
 import HomeScreen from "./screens/HomeScreen.jsx";
 import ProductScreen from "./screens/ProductScreen";
+import CartScreen from "./screens/CartScreen";
 import Error404Page from "./screens/Error404Page";
 const App = () => {
   return (
@@ -15,6 +16,8 @@ const App = () => {
           <Switch>
             <Route exact path="/" component={HomeScreen} />
             <Route exact path="/product/:id" component={ProductScreen} />
+            <Route path="/cart/:id?" component={CartScreen} />{" "}
+            {/*cart/:id? means id is optional it can be present or not */}
             <Route component={Error404Page} />
           </Switch>
         </Container>
