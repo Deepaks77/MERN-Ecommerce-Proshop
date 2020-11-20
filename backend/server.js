@@ -22,9 +22,6 @@ app.use(cors());
 //middlware kisi bhi specific route ka bhi bnasket hai ya fer overall hr request ke ek hi middlware bnade
 
 app.use("/uploads", express.static("uploads"));
-app.get("/", (req, res) => {
-  res.send("Api is running...");
-});
 
 app.use("/api/products", productRoutes);
 app.use("/api/users", userRoutes);
@@ -38,6 +35,17 @@ app.use("/api/upload", uploadRoutes);
 app.get("/api/config/paypal", (req, res) =>
   res.send(process.env.PAYPAL_CLIENT_ID)
 );
+
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static(path.join(__dirname, "../frontend/build")));
+  app.get("*", (req, res) =>
+    res.sendFile(path.join(__dirname, "../frontend/build", "index.html"))
+  );
+} else {
+  app.get("/", (req, res) => {
+    res.send("Api is running...");
+  });
+}
 
 app.use(notFound); //404 not found if any mismatch route is requested
 app.use(errorHandler); //error if any above routes have error
