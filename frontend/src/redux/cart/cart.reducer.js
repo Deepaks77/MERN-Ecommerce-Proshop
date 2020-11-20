@@ -5,15 +5,15 @@ const cartItemsFromLocalStore = localStorage.getItem("cartItems")
   : [];
 const shippingAddressFromLocalStore = localStorage.getItem("shippingAddress")
   ? JSON.parse(localStorage.getItem("shippingAddress"))
-  : null;
-const paymentMethodFromLocalStore = localStorage.getItem("shippingAddress")
+  : {};
+const paymentMethodFromLocalStore = localStorage.getItem("paymentMethod")
   ? JSON.parse(localStorage.getItem("paymentMethod"))
   : null;
 
 const INITIAL_STATE = {
   cartItems: cartItemsFromLocalStore,
   shippingAddress: shippingAddressFromLocalStore,
-  paymentMethod: paymentMethodFromLocalStore,
+  paymentMethod: null,
   isFetching: false,
   errorMessage: null,
 };

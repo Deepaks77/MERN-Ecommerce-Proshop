@@ -84,7 +84,7 @@ const OrderScreen = ({
       document.body.appendChild(script);
     };
 
-    if ((!_id || successPay || successDeliver) && orderId) {
+    if ((!_id || successPay || successDeliver || orderId !== _id) && orderId) {
       resetPay();
       resetDeliver();
       getOrderDetails(orderId);
