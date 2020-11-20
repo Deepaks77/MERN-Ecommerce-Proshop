@@ -3,8 +3,17 @@ import { addItemToCart, clearItemFromCart } from "./cart.utils.js";
 const cartItemsFromLocalStore = localStorage.getItem("cartItems")
   ? JSON.parse(localStorage.getItem("cartItems"))
   : [];
+const shippingAddressFromLocalStore = localStorage.getItem("shippingAddress")
+  ? JSON.parse(localStorage.getItem("shippingAddress"))
+  : null;
+const paymentMethodFromLocalStore = localStorage.getItem("shippingAddress")
+  ? JSON.parse(localStorage.getItem("paymentMethod"))
+  : null;
+
 const INITIAL_STATE = {
   cartItems: cartItemsFromLocalStore,
+  shippingAddress: shippingAddressFromLocalStore,
+  paymentMethod: paymentMethodFromLocalStore,
   isFetching: false,
   errorMessage: null,
 };
@@ -35,6 +44,19 @@ const cartReducer = (state = INITIAL_STATE, action) => {
       return {
         ...state,
         cartItems: clearItemFromCart(state.cartItems, action.payload),
+      };
+    }
+    case cartActionTypes.CART_SAVE_SHIPPING_ADDRESS: {
+      return {
+        ...state,
+        shippingAddress: action.payload,
+      };
+    }
+
+    case cartActionTypes.CART_SAVE_PAYMENT_METHOD: {
+      return {
+        ...state,
+        paymentMethod: action.payload,
       };
     }
     default:
